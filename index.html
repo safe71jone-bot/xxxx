@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e21">
+<title>দিনচক্র – রুটিন, অ্যালার্ম ও লাইফস্টাইল</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Dinchokro","short_name":"Dinchokro","start_url":".","display":"standalone","background_color":"%230a0e21","theme_color":"%230a0e21"}'>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e21;--glow1:#6d5cff;--glow2:#22d3ee;--glow3:#2ee6a6;
+  --card:rgba(255,255,255,.055);--card2:rgba(255,255,255,.1);--line:rgba(255,255,255,.09);
+  --tx:#eef1ff;--mu:#98a0c8;
+  --ac:#7c6cff;--ac2:#2ee6a6;--wr:#ffb547;--rd:#ff6b81;
+  --hero:linear-gradient(135deg,#6d5cff,#3b82f6 55%,#22d3ee);
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f1f3fc;--card:#ffffff;--card2:#eceffb;--line:#dde2f2;
+  --tx:#1a1f3d;--mu:#666b92;--ac:#5b4bdb;--ac2:#0b9b72;--wr:#d98a00;--rd:#e04b60;
+  --hero:linear-gradient(135deg,#6d5cff,#3b82f6 55%,#22d3ee);color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;background:var(--bg);color:var(--tx);
+  padding:env(safe-area-inset-top,0px) 0 calc(92px + env(safe-area-inset-bottom,0px));min-height:100vh;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;animation:fl 16s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:340px;height:340px;background:var(--glow1);top:-90px;left:-90px}
+.aurora i:nth-child(2){width:300px;height:300px;background:var(--glow2);top:35%;right:-110px;animation-delay:-5s}
+.aurora i:nth-child(3){width:280px;height:280px;background:var(--glow3);bottom:-100px;left:22%;animation-delay:-10s}
+@keyframes fl{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,40px) scale(1.18)}}
+main{max-width:560px;margin:0 auto;padding:14px}
+header{max-width:560px;margin:0 auto;padding:14px 14px 0;display:flex;align-items:center;justify-content:space-between}
+header .lg{font-size:20px;font-weight:700}
+header .lg em{font-style:normal;background:var(--hero);-webkit-background-clip:text;background-clip:text;color:transparent}
+header .dt{font-size:12px;color:var(--mu)}
+.thbtn{border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:12px;width:40px;height:40px;font-size:18px;cursor:pointer}
+h2{font-size:16px;margin:20px 4px 8px}
+.hero{background:var(--hero);color:#fff;border-radius:26px;padding:18px;display:flex;gap:14px;align-items:center;box-shadow:0 14px 40px rgba(109,92,255,.35);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.14);top:-70px;right:-50px}
+.hero>div:first-child{flex:1;min-width:0;position:relative;z-index:1}
+.hero small{opacity:.85}
+.hero h1{font-size:18px;margin:2px 0 6px;line-height:1.3}
+.cd{font-size:30px;font-weight:700;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.ring{position:relative;width:92px;height:92px;flex:none;z-index:1}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:19px}
+.chiprow{display:flex;gap:8px;margin:12px 0}
+.chip{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 6px;text-align:center;backdrop-filter:blur(10px)}
+.chip b{display:block;font-size:19px;color:var(--ac2)}
+.chip span{font-size:11px;color:var(--mu)}
+.dialwrap{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:10px 6px 4px;backdrop-filter:blur(10px)}
+.dialwrap svg{width:min(78vw,290px);display:block;margin:auto}
+.dialcap{text-align:center;font-size:12px;color:var(--mu);padding-bottom:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;margin-bottom:10px;display:flex;gap:11px;align-items:center;backdrop-filter:blur(10px)}
+.card.now{border-color:var(--ac2);box-shadow:0 0 0 2px var(--ac2) inset}
+.card.dn{opacity:.55}.card.dn .nm{text-decoration:line-through}
+.ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:var(--card2);flex:none}
+.bd{flex:1;min-width:0}.nm{font-weight:600;font-size:15px}.ds{font-size:12.5px;color:var(--mu);line-height:1.4}
+.tm{font-size:12px;color:var(--mu)}
+.pill{font-size:11px;background:var(--ac2);color:#fff;border-radius:8px;padding:1px 7px;margin-inline-start:6px}
+input[type=time],input[type=text],input[type=number],input[type=datetime-local],textarea,select{
+  font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card2);color:var(--tx);border-radius:10px;padding:6px 8px;margin-top:5px;max-width:100%}
+textarea{width:100%}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--ac)}
+.acts{display:flex;flex-direction:column;gap:6px}
+button{font:inherit;border:0;cursor:pointer;color:var(--tx)}
+.ib{width:38px;height:34px;border-radius:12px;background:var(--card2);font-size:16px;display:grid;place-items:center;text-decoration:none}
+.ib.on{background:var(--ac);color:#fff}
+.ib.grn{background:var(--ac2);color:#fff}
+.btn{background:var(--ac);color:#fff;padding:11px 16px;border-radius:14px;font-weight:600;width:100%;margin-top:8px;border:0}
+.btn.alt{background:var(--card);color:var(--tx);border:1px solid var(--line)}
+.btn.grn{background:var(--ac2)}
+.btn.rd{background:var(--rd)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+nav{position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));max-width:540px;margin:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;display:flex;padding:6px;backdrop-filter:blur(18px);z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+nav button{flex:1;background:none;font-size:11px;color:var(--mu);padding:5px 0;border-radius:16px}
+nav button i{display:block;font-style:normal;font-size:21px}
+nav button.on{color:var(--ac);font-weight:700;background:var(--card2)}
+.fab{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:54px;height:54px;border-radius:50%;
+  background:var(--hero);color:#fff;font-size:28px;border:0;z-index:6;box-shadow:0 10px 26px rgba(109,92,255,.5)}
+.week{display:flex;gap:6px;align-items:flex-end;height:84px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px}
+.week div{flex:1;text-align:center;font-size:10px;color:var(--mu);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.week i{display:block;background:linear-gradient(180deg,var(--glow2),var(--ac));border-radius:6px;min-height:3px;margin-bottom:3px}
+.wt{display:flex;gap:6px;flex-wrap:wrap}
+.wt button{width:38px;height:38px;border-radius:12px;border:0;background:var(--card2);font-size:18px}
+.wt button.f{background:var(--ac2)}
+.md{display:flex;gap:6px}.md button{flex:1;font-size:23px;border:0;border-radius:12px;background:var(--card2);padding:7px}
+.md button.on{outline:2px solid var(--ac2)}
+.cnt{display:flex;align-items:center;gap:12px;margin-top:8px}
+.cnt button{width:40px;height:40px;border-radius:50%;background:var(--ac);color:#fff;font-size:20px}
+.cnt b{font-size:22px;min-width:64px;text-align:center}
+.note{font-size:12.5px;color:var(--mu);line-height:1.55}
+.lk{display:inline-block;margin-top:4px;color:var(--ac2);font-weight:600;text-decoration:none;font-size:13.5px}
+.set{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:10px;backdrop-filter:blur(10px)}
+#ov,#rg,#mdl{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
+#ov{background:rgba(4,14,20,.92);color:#fff;flex-direction:column;text-align:center}
+#ov.show,#rg.show,#mdl.show{display:flex}
+#rg{background:rgba(0,0,0,.78)}
+#rg>div,#mdl>div{background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:24px;text-align:center;width:100%;max-width:400px;max-height:90vh;overflow:auto}
+#mdl>div{text-align:start}
+#rg .big{font-size:70px;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.2)}}
+.br{width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#2ee6a6,#0b9b72);animation:breathe 8s ease-in-out infinite;margin:18px auto}
+@keyframes breathe{0%,100%{transform:scale(.75)}50%{transform:scale(1.4)}}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%) translateY(-130px);
+  background:var(--ac);color:#fff;padding:10px 18px;border-radius:14px;z-index:30;transition:.4s;max-width:90%;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div>
+<header>
+  <div><div class="lg">🌀 দিন<em>চক্র</em></div><div class="dt" id="dt">—</div></div>
+  <button class="thbtn" id="thq" title="থিম">🌗</button>
+</header>
+<main id="app"></main>
+<button class="fab" id="fab">+</button>
+<nav id="nav"></nav>
+<div id="rg"></div>
+<div id="ov"></div>
+<div id="mdl"></div>
+<div id="toast"></div>
+<script>
+'use strict';
+const $=i=>document.getElementById(i);
+const BD='০১২৩৪৫৬৭৮৯',bn=x=>String(x).replace(/\d/g,d=>BD[d]);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const mn=t=>{const[a,b]=t.split(':').map(Number);return a*60+b};
+const hm2=d=>String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+const f12=s=>{const[h,m]=s.split(':').map(Number);const p=h<12?'সকাল':h<15?'দুপুর':h<18?'বিকাল':h<20?'সন্ধ্যা':'রাত';return p+' '+bn(h%12||12)+':'+bn(String(m).padStart(2,'0'))};
+const dk=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const stamp=()=>dk()+'T'+hm2(new Date());
+
+/* ---------- ডিফল্ট ডেটা ---------- */
+const DS=[
+{id:1,k:'t',t:'06:00',d:30,ic:'🚶',n:'হাঁটা ও জগিং',s:'ফজরের পর ৩০ মিনিট হাঁটা, জগিং ও বডি ওয়ার্ম আপ',al:1},
+{id:2,k:'t',t:'06:30',d:90,ic:'💪',n:'শারীরিক কসরত',s:'Push Up + Squat + ফ্রি-হ্যান্ড এক্সারসাইজ',al:1},
+{id:3,k:'m',t:'07:50',d:20,ic:'🍳',n:'সকালের খাবার',s:'কালোজিরা + মধু + কাঁচা রসুন + ডিম + দুধ',al:1},
+{id:4,k:'t',t:'08:00',d:120,ic:'📚',n:'পড়াশোনা ও শিক্ষা',s:'একাগ্র মনোযোগে পড়া ও ট্রেনিং',al:1},
+{id:5,k:'t',t:'11:00',d:180,ic:'💼',n:'প্রধান কর্ম',s:'দিনের সবচেয়ে গুরুত্বপূর্ণ কাজসমূহ সম্পাদন',al:1},
+{id:6,k:'m',t:'14:00',d:30,ic:'🍛',n:'দুপুরের খাবার',s:'ভাত/মাছ + ডাল + ডিম + সালাদ + সবজি',al:1},
+{id:7,k:'t',t:'15:00',d:120,ic:'🏢',n:'অফিস / নির্ধারিত কাজ',s:'বিকেলের নির্ধারিত দায়িত্ব পালন',al:1},
+{id:8,k:'m',t:'16:45',d:15,ic:'🍌',n:'বিকালের নাস্তা',s:'কলা + খেজুর + কিসমিস + বাদাম',al:1},
+{id:9,k:'t',t:'17:00',d:120,ic:'🥋',n:'বিনোদন ও ফিটনেস',s:'মার্শাল আর্ট + জগিং + বিনোদনমূলক বিরতি',al:1},
+{id:10,k:'m',t:'19:30',d:20,ic:'🥛',n:'রাতের খাবার',s:'দুধ + আপেল সাইডার ভিনেগার / হালকা খাবার',al:1},
+{id:11,k:'t',t:'20:00',d:120,ic:'🕋',n:'আমল ও পড়াশোনা',s:'মূল বিষয়ের পর্যালোচনা, আমল ও রাতের কাজ',al:1},
+{id:12,k:'t',t:'22:00',d:30,ic:'🧘',n:'মেডিটেশন ও স্কিন কেয়ার',s:'মেডিটেশন + স্কিন বন্ধ + মানসিক প্রশান্তি',al:1}];
+const FL=[
+{n:'PeoplePerHour',s:'আওয়ারলি প্রজেক্ট বিডিং ও স্কিল ম্যাচিং',u:'https://www.peopleperhour.com'},
+{n:'Fiverr',s:'গিগ অপ্টিমাইজেশন ও সার্ভিস লিস্টিং',u:'https://www.fiverr.com'},
+{n:'Workana',s:'রিমোট ক্লায়েন্ট প্রপোজাল সাবমিশন',u:'https://www.workana.com'},
+{n:'Guru',s:'প্রজেক্টভিত্তিক বিডিং ও কাজ সম্পন্ন করা',u:'https://www.guru.com'}];
+const MO=['😄','🙂','😐','😔','😴'];
+const DAYS=['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'];
+
+/* ---------- স্টেট ---------- */
+const KEY='dinchokro-v1';
+let st={tasks:JSON.parse(JSON.stringify(DS)),notes:[],times:{},alarm:{},done:{},fired:{},sn:[],
+  w:0,mood:'',bids:{},pts:0,hist:{},day:dk(),lead:5,sound:true,th:'',nid:100};
+try{const r=localStorage.getItem(KEY);if(r)st=Object.assign(st,JSON.parse(r))}catch(e){}
+if(!Array.isArray(st.tasks)||!st.tasks.length)st.tasks=JSON.parse(JSON.stringify(DS));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const T=i=>st.times[i.id]||i.t;
+const AL=i=>st.alarm[i.id]!==false&&i.al!==0;
+const doneToday=()=>st.done[st.day]||(st.done[st.day]={});
+const firedToday=()=>st.fired[st.day]||(st.fired[st.day]={});
+const items=()=>[...st.tasks].sort((a,b)=>mn(T(a))-mn(T(b)));
+const pct=()=>st.tasks.length?Math.round(st.tasks.filter(x=>doneToday()[x.id]).length/st.tasks.length*100):0;
+
+function roll(){
+  const today=dk();
+  if(st.day!==today){
+    st.hist[st.day]={p:pct(),w:st.w,m:st.mood,b:st.bids[st.day]||0};
+    st.done={};st.fired={};st.sn=[];st.w=0;st.mood='';st.day=today;save();
+  }
+}
+roll();
+function streak(){let n=0;const d=new Date();
+  const g=k=>k===st.day?pct():(st.hist[k]||{}).p||0;
+  if(g(dk(d))<60)d.setDate(d.getDate()-1);
+  while(g(dk(d))>=60){n++;d.setDate(d.getDate()-1)}
+  return n}
+
+/* ---------- ইউটিলিটি ---------- */
+let ac;
+function ctx(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac}catch(e){return null}}
+function tone(f,du){if(!st.sound)return;const a=ctx();if(!a)return;
+  try{const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);
+  g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+du);
+  o.start();o.stop(a.currentTime+du)}catch(e){}}
+function vib(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function sys(t,b){try{if('Notification'in window&&Notification.permission==='granted')new Notification(t,{body:b})}catch(e){}}
+function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),3200)}
+
+/* ---------- অ্যালার্ম ---------- */
+let ringTimer,ringAuto;
+function beepLoop(){clearInterval(ringTimer);let n=0;
+  const pl=()=>{tone(n++%2?880:660,.25);setTimeout(()=>tone(1100,.2),250);vib([300,150,300])};
+  pl();ringTimer=setInterval(pl,1500)}
+function ring(i){clearTimeout(ringAuto);
+  $('rg').innerHTML='<div><div class="big">⏰</div><h2 style="margin:6px 0">'+esc(i.ic||'')+' '+esc(i.n)+'</h2>'+
+  '<p class="tm">'+(i.t?f12(i.t)+' — এখনই শুরু করার সময়!':'')+'</p><p class="ds">'+esc(i.s||i.d||'')+'</p>'+
+  '<button class="btn grn" id="rgok">✅ শুরু করছি</button>'+
+  '<button class="btn alt" id="rgsn">😴 ৫ মিনিট পরে মনে করাও</button></div>';
+  $('rg').classList.add('show');beepLoop();vib([400,200,400,200,400]);
+  sys('⏰ '+i.n,i.s||i.d||'');
+  $('rgok').onclick=stopRing;
+  $('rgsn').onclick=()=>{const d=new Date(Date.now()+3e5);
+    st.sn.push({t:hm2(d),it:{ic:i.ic||'⏰',n:i.n,s:i.s||i.d||''}});save();stopRing();toast('😴 ৫ মিনিট পরে আবার মনে করানো হবে')};
+  ringAuto=setTimeout(stopRing,6e4)}
+function stopRing(){$('rg').classList.remove('show');clearInterval(ringTimer);clearTimeout(ringAuto);vib(0)}
+function leadWarn(i){tone(660,.35);sys(i.n,bn(st.lead)+' মিনিট পরে শুরু হবে');
+  toast((i.ic||'⏰')+' '+i.n+' — '+bn(st.lead)+' মিনিট পরে শুরু ('+f12(T(i))+')')}
+
+/* ---------- রিলাক্স (ব্রিদিং) ---------- */
+function relax(){let s=200;const o=$('ov');o.classList.add('show');
+  const r=()=>{o.innerHTML='<h2 style="font-size:24px">শ্বাস নিন... ছাড়ুন...</h2><div class="br"></div>'+
+    '<div style="font-size:36px;font-weight:700">'+bn(Math.floor(s/60))+':'+bn(String(s%60).padStart(2,'0'))+'</div>'+
+    '<p class="note" style="color:#cfe">৩ মিনিট ২০ সেকেন্ড গভীর শ্বাসের বিরতি</p>'+
+    '<button class="btn alt" style="max-width:220px" id="rx">বন্ধ করুন</button>';
+    $('rx').onclick=()=>{clearInterval(t);o.classList.remove('show')}};
+  r();const t=setInterval(()=>{s--;if(s<=0){clearInterval(t);o.classList.remove('show');tone(700,.5);toast('বিরতি শেষ, আবার কাজে 💪');return}r()},1000)}
+
+/* ---------- ফর্ম মডাল ---------- */
+let delFn=null;
+function ask(h,F,fn,del){
+  delFn=del||null;
+  $('mdl').innerHTML='<div><h3 style="margin:0 0 6px">'+esc(h)+'</h3>'+
+    F.map(f=>f.k==='b'
+      ?'<label class="fld">'+esc(f.l)+'<textarea rows="4" id="f_b" placeholder="'+esc(f.l)+'">'+esc(f.v||'')+'</textarea></label>'
+      :'<label class="fld">'+esc(f.l)+'<input id="f_'+f.k+'" type="'+(f.ty||'text')+'" value="'+esc(f.v==null?'':f.v)+'"'+(f.min!=null?' min="'+f.min+'"':'')+'></label>').join('')+
+    '<div class="row" style="margin-top:12px"><button class="btn alt" id="mc" style="width:auto">বাতিল</button>'+
+    (del?'<button class="btn rd" id="mx" style="width:auto">মুছুন</button>':'')+
+    '<button class="btn" id="ms" style="width:auto">সংরক্ষণ</button></div></div>';
+  $('mdl').classList.add('show');
+  $('mc').onclick=()=>$('mdl').classList.remove('show');
+  $('ms').onclick=()=>{const o={};F.forEach(f=>{const el=$('f_'+f.k);o[f.k]=el?el.value.trim():''});fn(o);$('mdl').classList.remove('show');save();render()};
+  if(del)$('mx').onclick=()=>{if(confirm('মুছে ফেলবেন?')){delFn();$('mdl').classList.remove('show');save();render()}}}
+function taskForm(x,kind){const n=!x;kind=kind||(x?x.k:'t');
+  x=x||{t:'09:00',d:60,ic:kind==='m'?'🍽️':'⭐',n:'',s:'',al:1,k:kind};
+  ask(n?'নতুন '+(kind==='m'?'খাবার':'কাজ'):'সম্পাদনা',[
+    {k:'i',l:'আইকন (ইমোজি)',v:x.ic},{k:'n',l:'নাম',v:x.n},
+    {k:'t',l:'শুরুর সময়',ty:'time',v:T(x)},{k:'d',l:'স্থায়িত্ব (মিনিট)',ty:'number',v:x.d,min:5},
+    {k:'s',l:'বিবরণ',v:x.s}],
+    o=>{if(!o.n)return;x.ic=o.ic||'⭐';x.n=o.n;x.t=o.t||x.t;x.d=Math.max(5,+o.d||x.d);x.s=o.s;x.k=kind;
+      if(n){x.id=++st.nid;st.tasks.push(x)}},
+    n?null:()=>{st.tasks=st.tasks.filter(y=>y!==x)})}
+function noteForm(x){const n=!x;x=x||{t:'',b:'',r:''};
+  ask(n?'নতুন নোট':'নোট সম্পাদনা',[
+    {k:'t',l:'শিরোনাম',v:x.t},{k:'b',l:'এখানে লিখুন…',v:x.b},
+    {k:'r',l:'রিমাইন্ডার (ঐচ্ছিক)',ty:'datetime-local',v:x.r}],
+    o=>{if(!o.t&&!o.b)return;if(o.r!==x.r)x.rf=0;x.t=o.t;x.b=o.b;x.r=o.r;
+      if(n){x.id=++st.nid;st.notes.push(x)}},
+    n?null:()=>{st.notes=st.notes.filter(y=>y!==x)})}
+
+/* ---------- গুগল ক্যালেন্ডার ---------- */
+function gcal(i){const p=x=>String(x).padStart(2,'0'),d=new Date();
+  const y=d.getFullYear()+p(d.getMonth()+1)+p(d.getDate());
+  const a=T(i).replace(':','')+'00',e=mn(T(i))+i.d;
+  const b=p(Math.floor(e/60)%24)+p(e%60)+'00';
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent((i.ic||'')+' '+i.n)+'&details='+encodeURIComponent(i.s||'')+'&dates='+y+'T'+a+'/'+y+'T'+b+'&recur=RRULE:FREQ=DAILY'}
+
+/* ---------- রেন্ডারিং ---------- */
+let tab='home';
+function card(i){const m=new Date(),nm=m.getHours()*60+m.getMinutes(),s=mn(T(i)),dn=!!doneToday()[i.id],now=nm>=s&&nm<s+i.d&&!dn;
+  return '<div class="card '+(now?'now ':'')+(dn?'dn':'')+'">'+
+  '<div class="ic">'+esc(i.ic)+'</div>'+
+  '<div class="bd" data-ed="'+i.id+'"><div class="tm">'+f12(T(i))+' · '+bn(T(i))+(now?'<span class="pill">এখন চলছে</span>':'')+'</div>'+
+  '<div class="nm">'+esc(i.n)+'</div><div class="ds">'+esc(i.s)+'</div></div>'+
+  '<div class="acts">'+
+  '<button class="ib '+(dn?'grn':'')+'" data-dn="'+i.id+'" title="সম্পন্ন">'+(dn?'✓':'○')+'</button>'+
+  '<button class="ib '+(AL(i)?'on':'')+'" data-al="'+i.id+'" title="অ্যালার্ম">'+(AL(i)?'🔔':'🔕')+'</button>'+
+  '<a class="ib" href="'+gcal(i)+'" target="_blank" rel="noopener" title="ক্যালেন্ডার">📅</a>'+
+  '</div></div>'}
+
+function dialSVG(){const d=new Date(),nm=d.getHours()*60+d.getMinutes(),A=x=>x/1440*2*Math.PI;
+  const arc=(a,b,r)=>{const p=x=>[100+r*Math.sin(x),100-r*Math.cos(x)],[x1,y1]=p(a),[x2,y2]=p(b);
+    return 'M'+x1+' '+y1+'A'+r+' '+r+' 0 '+(b-a>Math.PI?1:0)+' 1 '+x2+' '+y2};
+  let h='<svg viewBox="0 0 200 200" role="img" aria-label="২৪ ঘণ্টার ঘড়ি"><circle cx="100" cy="100" r="82" fill="none" stroke="var(--line)" stroke-width="14"/>';
+  for(let i=0;i<24;i+=3){const a=A(i*60),x=100+96*Math.sin(a),y=100-96*Math.cos(a);
+    h+='<text x="'+x+'" y="'+(y+3)+'" font-size="8" fill="var(--mu)" text-anchor="middle">'+bn(i)+'</text>'}
+  items().forEach(x=>{const s=mn(T(x)),e=Math.max(s+x.d,s+5),on=nm>=s&&nm<e;
+    h+='<path d="'+arc(A(s),A(e),82)+'" fill="none" stroke="'+(doneToday()[x.id]?'var(--ac2)':'var(--ac)')+'" stroke-width="'+(on?16:13)+'" stroke-linecap="round" opacity="'+(doneToday()[x.id]?.5:.95)+'"/>'});
+  const a=A(nm);
+  h+='<line x1="100" y1="100" x2="'+(100+68*Math.sin(a))+'" y2="'+(100-68*Math.cos(a))+'" stroke="var(--tx)" stroke-width="2.5" stroke-linecap="round"/><circle cx="100" cy="100" r="4.5" fill="var(--tx)"/>';
+  h+='<text x="100" y="126" text-anchor="middle" font-size="21" font-weight="700" fill="var(--tx)">'+bn(hm2(d))+'</text>'+
+  '<text x="100" y="88" text-anchor="middle" font-size="9" fill="var(--mu)">🔥 '+bn(streak())+' দিনের ধারা</text></svg>';
+  return h}
+
+function nextItem(){const m=new Date().getHours()*60+new Date().getMinutes();
+  return items().filter(i=>mn(T(i))>m&&!doneToday()[i.id])[0]}
+function curItem(){const m=new Date().getHours()*60+new Date().getMinutes();
+  return items().find(i=>m>=mn(T(i))&&m<mn(T(i))+i.d&&!doneToday()[i.id])}
+
+function vHome(){const nx=nextItem(),cur=curItem();
+  const dn=st.tasks.filter(x=>doneToday()[x.id]).length,pc=st.tasks.length?Math.round(dn/st.tasks.length*100):0;
+  const hd=nx?'<small>পরবর্তী কাজ</small><h1>'+esc(nx.ic)+' '+esc(nx.n)+'</h1><div class="cd" id="cd">--:--:--</div><small>'+f12(T(nx))+' এ শুরু</small>'
+    :'<small>'+(cur?'এখন চলছে':'আজকের সব কাজ শেষ 🎉')+'</small><h1>'+(cur?esc(cur.ic)+' '+esc(cur.n):'আলহামদুলিল্লাহ, দারুণ!')+'</h1>';
+  return '<div class="hero"><div>'+hd+'</div>'+
+  '<div class="ring"><svg width="92" height="92"><circle cx="46" cy="46" r="40" stroke="rgba(255,255,255,.3)" stroke-width="9" fill="none"/>'+
+  '<circle cx="46" cy="46" r="40" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="'+(251-251*pc/100)+'"/></svg><b>'+bn(pc)+'%</b></div></div>'+
+  '<div class="chiprow">'+
+  '<div class="chip"><b>'+bn(streak())+'</b><span>🔥 ধারা</span></div>'+
+  '<div class="chip"><b>'+bn(dn)+'/'+bn(st.tasks.length)+'</b><span>সম্পন্ন</span></div>'+
+  '<div class="chip"><b>'+bn(st.pts)+'</b><span>⭐ পয়েন্ট</span></div>'+
+  '<div class="chip"><b>'+bn(st.w)+'/৮</b><span>💧 পানি</span></div>'+
+  '</div>'+
+  '<div class="dialwrap">'+dialSVG()+'<div class="dialcap">🕐 ২৪ ঘণ্টার দিনচক্র — রিং-এ আপনার পুরো দিন</div></div>'+
+  '<button class="btn alt" id="rlx">🌬️ রিলাক্স বিরতি (৩ মি ২০ সে)</button>'+
+  '<h2>📋 আজকের সময়সূচি</h2>'+(items().map(card).join('')||'<div class="card"><div class="ds">কোনো কাজ নেই। রুটিন ট্যাব থেকে যোগ করুন।</div></div>')}
+
+function vRoutine(){const t=items().filter(i=>i.k==='t'),m=items().filter(i=>i.k==='m');
+  return '<h2>📋 কাজের রুটিন</h2>'+(t.map(card).join('')||'<div class="card"><div class="ds">কোনো কাজ নেই।</div></div>')+
+  '<h2>🍽️ খাবারের রুটিন</h2>'+(m.map(card).join('')||'<div class="card"><div class="ds">কোনো খাবার নেই।</div></div>')+
+  '<p class="note">💡 কার্ডের নামে চাপ দিয়ে সম্পাদনা করুন, 🔔 দিয়ে অ্যালার্ম চালু/বন্ধ, 📅 দিয়ে গুগল ক্যালেন্ডারে প্রতিদিনের রিমাইন্ডার যোগ করুন।</p>'}
+
+function vNotes(){const q=($('q')||{}).value||'';
+  const L=st.notes.filter(x=>((x.t||'')+(x.b||'')).toLowerCase().includes(q.toLowerCase()))
+    .sort((a,b)=>(b.p||0)-(a.p||0)||b.id-a.id);
+  return '<input type="text" id="q" placeholder="🔍 নোট খুঁজুন" value="'+esc(q)+'" style="width:100%;padding:10px">'+
+  (L.length?L.map(x=>'<div class="card" style="border-inline-start:4px solid '+(x.p?'var(--wr)':'var(--line)')+'">'+
+    '<div class="bd" data-en="'+x.id+'"><div class="nm">'+esc(x.t||'শিরোনামহীন')+'</div>'+
+    '<div class="ds" style="white-space:pre-wrap">'+esc(x.b)+'</div>'+
+    (x.r?'<div class="tm">⏰ '+bn(x.r.replace('T',' '))+(x.rf?' ✔':'')+'</div>':'')+'</div>'+
+    '<button class="ib '+(x.p?'on':'')+'" data-pn="'+x.id+'">'+(x.p?'📌':'📍')+'</button></div>').join('')
+  :'<div class="card"><div class="ds">কোনো নোট নেই। + বাটনে চাপ দিয়ে লিখুন, চাইলে রিমাইন্ডারও দিন।</div></div>')}
+
+function vTrack(){const ds=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dk(d);
+    ds.push([DAYS[d.getDay()],k===st.day?pct():(st.hist[k]||{}).p||0])}
+  const b=st.bids[st.day]||0;
+  return '<h2>💧 পানি ট্র্যাকার (লক্ষ্য ৮ গ্লাস)</h2><div class="set"><div class="wt">'+
+  [1,2,3,4,5,6,7,8].map(i=>'<button data-w="'+i+'" class="'+(st.w>=i?'f':'')+'">💧</button>').join('')+'</div>'+
+  '<div class="note" style="margin-top:6px">'+bn(st.w)+'/৮ গ্লাস '+(st.w>=8?'— চমৎকার! 🎉':'')+'</div></div>'+
+  '<h2>😊 আজকের মেজাজ</h2><div class="set"><div class="md">'+
+  MO.map(m=>'<button data-mo="'+m+'" class="'+(st.mood===m?'on':'')+'">'+m+'</button>').join('')+'</div></div>'+
+  '<h2>💻 ফ্রিল্যান্সিং বিড লক্ষ্য (৫টি)</h2><div class="set">'+
+  '<div class="cnt"><button data-bd="-1">−</button><b>'+bn(b)+'</b><button data-bd="1">+</button></div>'+
+  '<div class="note">'+(b>=5?'🎯 আজকের বিড লক্ষ্য পূর্ণ!':'প্রতিদিন নিয়মিত বিডিং, গিগ র‍্যাঙ্কিং পর্যবেক্ষণ ও ক্লায়েন্ট যোগাযোগ বজায় রাখুন।')+'</div></div>'+
+  '<h2>📈 গত ৭ দিনের অগ্রগতি</h2><div class="week">'+
+  ds.map(x=>'<div><i style="height:'+x[1]+'%"></i>'+x[0]+'<br>'+bn(x[1])+'%</div>').join('')+'</div>'+
+  '<p class="note">৬০% বা বেশি সম্পন্ন করলে দিনটি ধারায় (🔥 streak) গণ্য হয়। বর্তমান ধারা: '+bn(streak())+' দিন।</p>'}
+
+function vSet(){const np=('Notification'in window)?Notification.permission:'nai';
+  return '<h2>🔔 নোটিফিকেশন ও অ্যালার্ম</h2><div class="set">'+
+  '<div class="note">অ্যালার্মে শব্দ, ভাইব্রেশন ও নোটিফিকেশন পেতে অনুমতি দিন।</div>'+
+  '<div class="row"><span class="note">স্ট্যাটাস: '+(np==='granted'?'চালু ✅':np==='denied'?'ব্লকড ❌ (ব্রাউজার সেটিংস থেকে চালু করুন)':np==='default'?'অনুমতি বাকি':'এই ডিভাইসে নেই')+'</span>'+
+  '<button class="btn" style="width:auto" id="perm">অনুমতি দিন</button></div>'+
+  '<button class="btn alt" id="test">🔊 টেস্ট অ্যালার্ম</button></div>'+
+  '<h2>⏳ আগাম সতর্কতা</h2><div class="set"><div class="row"><span class="note">শুরুর কত আগে জানাবো?</span>'+
+  '<select id="lead">'+[0,5,10,15,30].map(x=>'<option value="'+x+'" '+(st.lead===x?'selected':'')+'>'+(x?bn(x)+' মিনিট আগে':'বন্ধ')+'</option>').join('')+'</select></div></div>'+
+  '<h2>🔊 সাউন্ড</h2><div class="set"><div class="row"><span class="note">অ্যালার্ম সাউন্ড</span>'+
+  '<select id="snd"><option value="1" '+(st.sound?'selected':'')+'>চালু</option><option value="0" '+(!st.sound?'selected':'')+'>বন্ধ</option></select></div></div>'+
+  '<h2>🌅 স্ক্রিন জাগিয়ে রাখুন</h2><div class="set"><div class="row"><span class="note">স্ক্রিন লক হওয়া আটকান (সমর্থিত হলে)</span>'+
+  '<label><input type="checkbox" id="wl" style="width:auto"> চালু</label></div></div>'+
+  '<h2>🎨 থিম</h2><div class="set"><div class="row">'+
+  '<button class="btn alt" data-th="" style="width:auto">সিস্টেম</button>'+
+  '<button class="btn alt" data-th="dark" style="width:auto">ডার্ক</button>'+
+  '<button class="btn alt" data-th="light" style="width:auto">লাইট</button></div></div>'+
+  '<h2>💾 ব্যাকআপ</h2><div class="set"><div class="note">সব তথ্য ফোনেই থাকে। ফোন বদলালে ব্যাকআপ নিন।</div>'+
+  '<div class="row"><button class="btn alt" id="ex" style="width:auto">এক্সপোর্ট</button>'+
+  '<button class="btn alt" id="im" style="width:auto">ইমপোর্ট</button>'+
+  '<input type="file" id="fi" accept=".json" hidden></div></div>'+
+  '<h2>⚠️ রিসেট</h2><div class="set">'+
+  '<button class="btn alt" id="rs">আজকের টিক রিসেট</button>'+
+  '<button class="btn alt" id="df">রুটিন ডিফল্টে ফেরান</button>'+
+  '<button class="btn rd" id="wipe">সব ডেটা মুছুন</button></div>'+
+  '<h2>💼 ফ্রিল্যান্সিং মার্কেটপ্লেস</h2>'+
+  FL.map(x=>'<div class="card"><div class="ic">🌐</div><div class="bd"><div class="nm">'+esc(x.n)+'</div>'+
+  '<div class="ds">'+esc(x.s)+'</div><a class="lk" href="'+x.u+'" target="_blank" rel="noopener">খুলুন →</a></div></div>').join('')+
+  '<h2>ℹ️ জেনে রাখুন</h2><div class="set"><div class="note">'+
+  'অ্যালার্ম ও নোটিফিকেশন তখনই বাজবে যখন অ্যাপটি ব্রাউজারে খোলা থাকবে। নির্ভরযোগ্য রিমাইন্ডারের জন্য প্রতিটি কাজের পাশের 📅 বাটনে চেপে গুগল ক্যালেন্ডারে প্রতিদিনের রিমাইন্ডার যোগ করুন। Chrome মেনু (⋮) → "Add to Home screen" দিয়ে অ্যাপটি ফোনে ইনস্টল করা যায়।</div></div>'}
+
+const VIEWS={home:vHome,routine:vRoutine,notes:vNotes,track:vTrack,set:vSet};
+function render(){roll();$('app').innerHTML=VIEWS[tab]();
+  $('nav').innerHTML=[['home','🏠','আজ'],['routine','📋','রুটিন'],['notes','📝','নোট'],['track','📊','ট্র্যাকার'],['set','⚙️','সেটিংস']]
+    .map(x=>'<button class="'+(tab===x[0]?'on':'')+'" data-tb="'+x[0]+'"><i>'+x[1]+'</i>'+x[2]+'</button>').join('');
+  $('fab').style.display=(tab==='routine'||tab==='notes')?'block':'none';
+  updLive()}
+function updLive(){const d=new Date();
+  $('dt').textContent=d.toLocaleDateString('bn-BD',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const c=$('cd');if(c){const nx=nextItem();if(nx){let sec=mn(T(nx))*60-(d.getHours()*3600+d.getMinutes()*60+d.getSeconds());
+    if(sec<0)sec=0;const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;
+    c.textContent=bn(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'))}}}
+
+/* ---------- টিক (অ্যালার্ম ইঞ্জিন) ---------- */
+let lastMin=-1;
+function tick(){roll();const n=new Date(),m=n.getHours()*60+n.getMinutes(),k=st.day;
+  updLive();
+  const modalOpen=$('mdl').classList.contains('show'),ringOpen=$('rg').classList.contains('show');
+  if(m!==lastMin){lastMin=m;
+    if(!modalOpen&&!ringOpen)render()}
+  const f=firedToday();
+  st.tasks.forEach(i=>{if(!AL(i))return;const s=mn(T(i)),pk=k+i.id+'p',sk=k+i.id+'s';
+    if(st.lead>0&&m===s-st.lead&&!f[pk]){f[pk]=1;save();leadWarn(i)}
+    if(m===s&&!f[sk]){f[sk]=1;save();ring(i)}
+    if(i._sn===m){i._sn=null;ring(i)}});
+  st.sn=st.sn.filter(x=>{if(mn(x.t)<=m&&m-mn(x.t)<=1){ring(x.it);return false}return mn(x.t)>m});
+  st.notes.forEach(x=>{if(x.r&&!x.rf&&x.r<=stamp()&&x.r.slice(0,10)===k){x.rf=1;save();
+    ring({ic:'📝',n:x.t||'নোট রিমাইন্ডার',s:x.b})}})}
+
+/* ---------- ইভেন্ট ---------- */
+document.addEventListener('click',e=>{ctx();
+  const t=e.target.closest('[data-tb],[data-dn],[data-al],[data-ed],[data-en],[data-pn],[data-w],[data-mo],[data-bd],[data-th],#rlx,#thq,#perm,#test,#ex,#im,#rs,#df,#wipe');
+  if(!t)return;const D=t.dataset;
+  if(t.id==='rlx')return relax();
+  if(t.id==='thq'){const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    st.th=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=st.th;save();return toast(st.th==='dark'?'ডার্ক থিম 🌙':'লাইট থিম ☀️')}
+  if(t.id==='perm'){try{Notification.requestPermission().then(()=>render())}catch(e){toast('এই ব্রাউজারে সম্ভব নয়')}return}
+  if(t.id==='test')return ring({ic:'⏰',n:'টেস্ট অ্যালার্ম',s:'শব্দ, ভাইব্রেশন ও নোটিফিকেশন ঠিকমতো কাজ করছে!',t:hm2(new Date())});
+  if(t.id==='ex'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(st)],{type:'application/json'}));
+    a.download='dinchokro-backup-'+dk()+'.json';a.click();return}
+  if(t.id==='im')return $('fi').click();
+  if(t.id==='rs'){st.done={};st.fired={};st.sn=[];save();render();return toast('আজকের টিক রিসেট হয়েছে')}
+  if(t.id==='df'){if(confirm('সব কাজ ডিফল্ট রুটিনে ফিরবে। নোট থাকবে।')){st.tasks=JSON.parse(JSON.stringify(DS));st.times={};save();render()}return}
+  if(t.id==='wipe'){if(confirm('সব ডেটা (রুটিন, নোট, হিস্ট্রি) মুছে যাবে!')){localStorage.removeItem(KEY);location.reload()}return}
+  if(D.tb){tab=D.tb;render();scrollTo({top:0});return}
+  const f=id=>st.tasks.find(x=>x.id==id);
+  if(D.dn){const x=f(D.dn);const d=doneToday();
+    if(d[x.id]){delete d[x.id];st.pts=Math.max(0,st.pts-10)}
+    else{d[x.id]=1;st.pts+=10;tone(880,.15);toast('+'+bn(10)+' পয়েন্ট ⭐ '+x.n+' সম্পন্ন!')}
+    save();render();return}
+  if(D.al){const x=f(D.al);st.alarm[x.id]=AL(x)?false:true;save();render();
+    return toast(AL(x)?'🔔 '+x.n+' — অ্যালার্ম চালু':'🔕 '+x.n+' — অ্যালার্ম বন্ধ')}
+  if(D.ed)return taskForm(f(D.ed));
+  if(D.en){const x=st.notes.find(y=>y.id==D.en);return noteForm(x)}
+  if(D.pn){const x=st.notes.find(y=>y.id==D.pn);x.p=x.p?0:1;save();render();return}
+  if(D.w){st.w=st.w==D.w?+D.w-1:+D.w;if(st.w>=8)toast('💧 আজকের পানির লক্ষ্য পূর্ণ!');save();render();return}
+  if(D.mo){st.mood=st.mood===D.mo?'':D.mo;save();render();return}
+  if(D.bd){st.bids[st.day]=Math.max(0,(st.bids[st.day]||0)+ +D.bd);save();
+    if(st.bids[st.day]===5&&+D.bd>0)toast('🎯 আজকের বিড লক্ষ্য পূর্ণ!');render();return}
+  if(D.th!==undefined){st.th=D.th;document.documentElement.dataset.theme=D.th;save();render();return}});
+document.addEventListener('input',e=>{if(e.target.id==='q')render()});
+document.addEventListener('change',e=>{
+  if(e.target.id==='lead'){st.lead=+e.target.value;save();toast(st.lead?bn(st.lead)+' মিনিট আগে সতর্ক করা হবে':'আগাম সতর্কতা বন্ধ')}
+  if(e.target.id==='snd'){st.sound=e.target.value==='1';save();if(st.sound)tone(880,.3)}
+  if(e.target.id==='wl'){(async()=>{try{if(e.target.checked)window._wk=await navigator.wakeLock.request('screen');
+    else if(window._wk){window._wk.release();window._wk=null}}catch(x){e.target.checked=false;toast('এই ডিভাইসে সমর্থিত নয়')}})()}
+  if(e.target.id==='fi'){const r=new FileReader();
+    r.onload=()=>{try{st=Object.assign(st,JSON.parse(r.result));save();render();toast('ইমপোর্ট সম্পন্ন ✅')}catch(x){toast('ফাইলটি সঠিক নয় ❌')}};
+    e.target.files[0]&&r.readAsText(e.target.files[0])}});
+$('fab').onclick=()=>{ctx();tab==='notes'?noteForm():taskForm(null,'t')};
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
+if(st.th)document.documentElement.dataset.theme=st.th;
+render();tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
